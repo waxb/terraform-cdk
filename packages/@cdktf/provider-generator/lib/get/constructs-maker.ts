@@ -207,8 +207,13 @@ export class ConstructsMaker {
     );
   }
 
-  private async generateTypeScript() {
-    const schema = await readSchema(this.targets);
+  private async generateTypeScript(
+    schemaPromise: Promise<{
+      providerSchema: ProviderSchema;
+      moduleSchema: Record<string, ModuleSchema>;
+    }>
+  ) {
+    const schema = await schemaPromise;
 
     const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(
       (target) => target instanceof ConstructsMakerModuleTarget
@@ -235,8 +240,8 @@ export class ConstructsMaker {
     }
   }
 
-  public async generate() {
-    await this.generateTypeScript();
+  public async generate(schema = readSchema(this.targets)) {
+    await this.generateTypeScript(schema);
 
     if (this.isJavascriptTarget) {
       await this.save();

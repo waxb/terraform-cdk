@@ -20,13 +20,19 @@ export async function withTempDir(
   }
 }
 
-export async function mkdtemp(closure: (dir: string) => Promise<void>) {
+export async function mkdtemp(
+  closure: (dir: string) => Promise<void>,
+  keep = false
+) {
   const workdir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf."));
   try {
     await closure(workdir);
   } finally {
-    await fs.remove(workdir);
+    if (!keep) {
+      await fs.remove(workdir);
+    }
   }
+  return workdir;
 }
 
 export const exec = async (
