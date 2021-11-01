@@ -264,6 +264,30 @@ export class HelloTerra extends TerraformStack {
 
 The [examples page](/docs/cdktf/examples.html) contains multiple example projects for every supported programming language.
 
+### Using References
+
+When working with resources created from providers you can use properties on the instances from the generated bindings to reference in other resources. This allows us to track logical dependencies and access computed values.
+
+```ts
+
+const exampleNamespace = new Namespace(this, "tf-cdk-example", {
+  metadata: {
+    name: "tf-cdk-example",
+  },
+});
+
+new Deployment(this, "nginx-deployment", {
+  metadata: {
+    name: "nginx",
+    namespace: exampleNamespace.metadata.name, // This let's you reference the name
+    labels: {
+      app,
+    },
+  });
+```
+
+Please be aware that you can not pass an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source as this is not supported by Terraform. You need to specify all values you want to pass.
+
 ### Escape Hatch
 
 Terraform provides [meta-arguments](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
