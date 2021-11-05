@@ -1,8 +1,12 @@
 {
   "language": "csharp",
   "app": "dotnet run -p MyTerraformStack.csproj",
-  "terraformProviders": ["ucloud/ucloud@~> 1.29.0"],
+  "terraformProviders": [
+    "ucloud/ucloud@~> 1.29.0",
+    "vsphere@2.0.2"
+  ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
-  }
+  },
+  "projectId": "36e58054-fc8a-48be-a3bf-a14cb5bc7438"
 }

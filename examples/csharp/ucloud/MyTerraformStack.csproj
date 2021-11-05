@@ -13,4 +13,8 @@
     <ProjectReference Include=".gen\ucloud\ucloud.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include=".gen\vsphere\vsphere.csproj" />
+  </ItemGroup>
+
 </Project>
